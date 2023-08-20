@@ -1,0 +1,7 @@
+Si el puerto esta en uso stopearlo con ->
+netstat -ano | findstr LISTENING | findstr 8080
+copiar el PID del proceso el cual esta el puerto 8080 [::]:8080
+y tambien el de [::1]:8080
+kill del proceso - >
+taskkill -PID PIDAELIMINAR -F
+taskkill -PID PIDAELIMINAR -F
