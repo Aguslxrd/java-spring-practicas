@@ -5,3 +5,9 @@ y tambien el de [::1]:8080
 kill del proceso - >
 taskkill -PID PIDAELIMINAR -F
 taskkill -PID PIDAELIMINAR -F
+
+
+// Call the dataTables jQuery plugin
+$(document).ready(function() {
+  $('#dataTable').DataTable();
+});
