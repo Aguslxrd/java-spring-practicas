@@ -1,5 +1,8 @@
 package com.practicasspring.practicasenspring.models;
 
+import jakarta.persistence.Table;
+
+@Table(name = "usuario")
 public class Usuario {
     private long id;
     private String nombre;
