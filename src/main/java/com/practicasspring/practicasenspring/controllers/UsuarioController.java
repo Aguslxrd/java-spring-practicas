@@ -38,7 +38,7 @@ public class UsuarioController {
 
     @RequestMapping(value = "api/v1/usuarios/{id}", method = RequestMethod.DELETE)
     public void eliminarUsuario(@PathVariable long id){
-        usuarioDao.eliminarUsuario(id);
+        usuarioDao.eliminarUsuario(id); //implementar logica para checkear si existe o no un usuario, lo mismo en GET
     }
 
     private boolean isValidUsuario(Usuario usuario) {
