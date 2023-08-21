@@ -25,8 +25,8 @@ public class Usuario {
     private String email;
     @Getter @Setter @Column(name = "telefono")
     private String telefono;
-    @Getter @Setter @Column(name = "password")
-    private String Password;
+    @Getter @Setter @Column(name = "passwd")
+    private String passwd;
 
 
 }

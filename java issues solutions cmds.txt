@@ -46,3 +46,11 @@ y reload all maven projects
 		<scope>provided</scope>
 	</dependency>
 Con lombok podemos usar las anotaciones @Getter y @Setter
+en application properties se deberia configurar el acceso a la base de datos
+server.port=3306
+#
+spring.datasource.url=jdbc:mysql://localhost/springpracticas?useSSL=false
+spring.datasource.dbname=springpracticas
+spring.datasource.username=root
+spring.datasource.password=zackquack
+spring.datasoruce.driver-class-name=con.mysql.cj.jdbc.Driver
