@@ -18,7 +18,7 @@ async function iniciarSesion() {
         }
 
         // Analizar la respuesta solo si es exitosa
-        const usuarios = await request.json();
+        const response = await request.json();
     } catch (error) {
         console.error('Error:', error);
     }

@@ -33,4 +33,15 @@ public class UsuarioDaoImp implements UsuarioDao{
     public void registrarUsuario(Usuario usuario) {
         entityManager.merge(usuario); //se puede utilizar persist ya que no actualizo la entidad como tal.
     }
+    @Override
+    public boolean verificarCredenciales(Usuario usuario) {
+        String query = "FROM Usuario WHERE email = :email AND passwd = :password";
+        List<Usuario> listaUsuarios = entityManager.createQuery(query)
+                .setParameter("email", usuario.getEmail())
+                .setParameter("password", usuario.getPasswd())
+                .getResultList();
+
+        return !listaUsuarios.isEmpty(); //si no coincide con los datos devuelve false
+    }
+
 }
