@@ -39,3 +39,10 @@ Lo mismo con el mysql connector
 			<scope>runtime</scope>
 		</dependency>
 y reload all maven projects
+	<dependency>
+		<groupId>org.projectlombok</groupId>
+		<artifactId>lombok</artifactId>
+		<version>1.18.28</version>
+		<scope>provided</scope>
+	</dependency>
+Con lombok podemos usar las anotaciones @Getter y @Setter
