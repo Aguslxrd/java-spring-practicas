@@ -27,6 +27,10 @@ async function cargarUsuarios() {
 }
 
 async function eliminarUsuario(id){
+    if(!confirm('¿Desea eliminar el usuario?')){
+        return;
+    }
+
         const request = await fetch('http://localhost:8080/api/v1/usuarios/' + id, {
             method: 'DELETE',
             headers: {
@@ -34,5 +38,6 @@ async function eliminarUsuario(id){
                 'Content-Type': 'application/json'
             }
         });
-    alert("Usuario eliminado");
+        location.reload();
+
 }

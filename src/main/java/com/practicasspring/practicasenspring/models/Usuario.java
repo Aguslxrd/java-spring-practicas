@@ -1,9 +1,6 @@
 package com.practicasspring.practicasenspring.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +12,7 @@ import lombok.ToString;
 public class Usuario {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //autoincrementa el value siguiendo la db
     @Getter @Setter @Column(name = "id")
     private long id;
     @Getter @Setter @Column(name = "nombre")

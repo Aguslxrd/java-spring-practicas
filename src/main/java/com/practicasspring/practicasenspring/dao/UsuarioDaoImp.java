@@ -28,4 +28,9 @@ public class UsuarioDaoImp implements UsuarioDao{
         Usuario usuario = entityManager.find(Usuario.class, id);
         entityManager.remove(usuario);
     }
+
+    @Override
+    public void registrarUsuario(Usuario usuario) {
+        entityManager.merge(usuario); //se puede utilizar persist ya que no actualizo la entidad como tal.
+    }
 }

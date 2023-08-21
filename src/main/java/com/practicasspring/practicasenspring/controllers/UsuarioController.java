@@ -3,13 +3,14 @@ package com.practicasspring.practicasenspring.controllers;
 import com.practicasspring.practicasenspring.dao.UsuarioDao;
 import com.practicasspring.practicasenspring.models.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class UsuarioController {
@@ -39,4 +40,29 @@ public class UsuarioController {
     public void eliminarUsuario(@PathVariable long id){
         usuarioDao.eliminarUsuario(id);
     }
+
+    private boolean isValidUsuario(Usuario usuario) {
+        return usuario.getNombre() != null &&
+                usuario.getApellido() != null &&
+                usuario.getEmail() != null &&
+                usuario.getPasswd() != null;
+    }
+    @RequestMapping(value = "api/v1/usuarios", method = RequestMethod.POST)
+    public ResponseEntity<Object> registrarUsuarios(@RequestBody(required = false) Usuario usuario) {
+        if (usuario == null || !isValidUsuario(usuario)) {
+            Map<String, String> response = new HashMap<>();
+            response.put("error", "El cuerpo de la petición está vacío o el formato del usuario es incompleto.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        usuarioDao.registrarUsuario(usuario);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Usuario registrado exitosamente.");
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+
+
+
 }
