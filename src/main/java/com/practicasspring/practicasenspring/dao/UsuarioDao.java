@@ -7,4 +7,6 @@ import java.util.List;
 public interface UsuarioDao {
 
     List<Usuario> getUsuarios();
+
+    void eliminarUsuario(long id);
 }

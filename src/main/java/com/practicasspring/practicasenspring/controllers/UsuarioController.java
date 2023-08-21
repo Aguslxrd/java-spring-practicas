@@ -5,6 +5,7 @@ import com.practicasspring.practicasenspring.models.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class UsuarioController {
     private UsuarioDao usuarioDao; //inyeccion de dependencia
 
 
-    @RequestMapping(value = "usuario/{id}")
+    @RequestMapping(value = "api/v1/usuarios/{id}", method = RequestMethod.GET)
     public Usuario getUsuario(@PathVariable long id){
         Usuario usuario = new Usuario();
         usuario.setNombre("damian");
@@ -29,9 +30,13 @@ public class UsuarioController {
         return usuario;
     }
 
-    @RequestMapping(value = "usuario")
+    @RequestMapping(value = "api/v1/usuarios", method = RequestMethod.GET )
     public List<Usuario> getUsuarios(){
         return usuarioDao.getUsuarios();
     }
 
+    @RequestMapping(value = "api/v1/usuarios/{id}", method = RequestMethod.DELETE)
+    public void eliminarUsuario(@PathVariable long id){
+        usuarioDao.eliminarUsuario(id);
+    }
 }
