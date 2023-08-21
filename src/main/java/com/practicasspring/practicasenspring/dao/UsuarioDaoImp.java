@@ -3,6 +3,8 @@ package com.practicasspring.practicasenspring.dao;
 import com.practicasspring.practicasenspring.models.Usuario;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.bouncycastle.crypto.params.Argon2Parameters;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,13 +37,19 @@ public class UsuarioDaoImp implements UsuarioDao{
     }
     @Override
     public boolean verificarCredenciales(Usuario usuario) {
-        String query = "FROM Usuario WHERE email = :email AND passwd = :password";
+        String query = "FROM Usuario WHERE email = :email";
         List<Usuario> listaUsuarios = entityManager.createQuery(query)
                 .setParameter("email", usuario.getEmail())
-                .setParameter("password", usuario.getPasswd())
                 .getResultList();
 
-        return !listaUsuarios.isEmpty(); //si no coincide con los datos devuelve false
+        String hashedPassword = listaUsuarios.get(0).getPasswd();
+
+        if (!listaUsuarios.isEmpty()) {//Agregar try catch para evitar null pointers
+
+            Argon2PasswordEncoder arg2SpringSecurity = new Argon2PasswordEncoder(16, 32, 1, 60000, 10);
+            return arg2SpringSecurity.matches(usuario.getPasswd(), hashedPassword);
+        }
+        return false;
     }
 
 }

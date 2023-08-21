@@ -5,6 +5,7 @@ import com.practicasspring.practicasenspring.models.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -54,6 +55,10 @@ public class UsuarioController {
             response.put("error", "El cuerpo de la petición está vacío o el formato del usuario es incompleto.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
+        Argon2PasswordEncoder arg2SpringSecurity = new Argon2PasswordEncoder(16, 32, 1, 60000, 10);
+        String springArgon2Hash = arg2SpringSecurity.encode(usuario.getPasswd());//agregar excepciones
+        assert(arg2SpringSecurity.matches(usuario.getPasswd(), springArgon2Hash));
+        usuario.setPasswd(springArgon2Hash);
 
         usuarioDao.registrarUsuario(usuario);
 
