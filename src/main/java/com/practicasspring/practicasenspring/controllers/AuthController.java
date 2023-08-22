@@ -22,6 +22,7 @@ public class AuthController {
     @RequestMapping(value = "api/v1/login", method = RequestMethod.POST) //Devolver estados http
     public String login(@RequestBody Usuario usuario) {
         if (usuarioDao.verificarCredenciales(usuario)){
+            
             return "Ok";
         }else {
             return "Failed";
