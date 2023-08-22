@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
 
 @Component
@@ -43,7 +44,8 @@ public class JWTUtil {
         Date now = new Date(nowMillis);
 
         //  sign JWT with our ApiKey secret
-        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(key);
+        byte[] apiKeySecretBytes = Base64.getDecoder().decode(key);
+        //DEPRECATED - > byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(key);
         Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
 
         //  set the JWT Claims

@@ -12,5 +12,7 @@ public interface UsuarioDao {
 
     void registrarUsuario(Usuario usuario);
 
-    boolean verificarCredenciales(Usuario usuario);
+    Usuario verificarCredenciales(Usuario usuario);
+
+    Usuario getUsuarioPorId(long id);
 }

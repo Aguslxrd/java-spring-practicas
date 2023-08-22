@@ -2,6 +2,7 @@ package com.practicasspring.practicasenspring.controllers;
 
 import com.practicasspring.practicasenspring.dao.UsuarioDao;
 import com.practicasspring.practicasenspring.models.Usuario;
+import com.practicasspring.practicasenspring.utils.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,26 +20,45 @@ public class UsuarioController {
     @Autowired
     private UsuarioDao usuarioDao; //inyeccion de dependencia
 
+    @Autowired
+    private JWTUtil jwtUtil;
+
 
     @RequestMapping(value = "api/v1/usuarios/{id}", method = RequestMethod.GET)
-    public Usuario getUsuario(@PathVariable long id){
-        Usuario usuario = new Usuario();
-        usuario.setNombre("damian");
-        usuario.setApellido("suffo");
-        usuario.setEmail("suffodamian02@gmail.com");
-        usuario.setTelefono("232323");
-        usuario.setPasswd("123456789");
-        usuario.setId(14);
-        return usuario;
+    public ResponseEntity<?> getUsuario(@PathVariable long id, @RequestHeader(value = "Authorization") String token) {
+        if (!validarToken(token)){
+            return null;
+        }else {
+            Usuario usuario = usuarioDao.getUsuarioPorId(id); // Hacer la lógica para obtener el usuario de la base de datos por su ID
+
+            if (usuario == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("Usuario no encontrado"); // Devuelve un mensaje en JSON si el usuario no se encuentra
+            }
+
+            return ResponseEntity.ok(usuario);
+        }
+    }
+
+    private boolean validarToken(String token){
+        String usuarioID = jwtUtil.getKey(token);
+        return usuarioID != null;
+        //checkear si existe el usuario en la db
     }
 
     @RequestMapping(value = "api/v1/usuarios", method = RequestMethod.GET )
-    public List<Usuario> getUsuarios(){
+    public List<Usuario> getUsuarios(@RequestHeader(value = "Authorization") String token){
+        if (!validarToken(token)){
+            return null;
+        }
         return usuarioDao.getUsuarios();
     }
 
     @RequestMapping(value = "api/v1/usuarios/{id}", method = RequestMethod.DELETE)
-    public void eliminarUsuario(@PathVariable long id){
+    public void eliminarUsuario(@PathVariable long id, @RequestHeader(value = "Authorization") String token){
+        if (!validarToken(token)){
+            return;
+        }
         usuarioDao.eliminarUsuario(id); //implementar logica para checkear si existe o no un usuario, lo mismo en GET
     }
 
